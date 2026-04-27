@@ -533,6 +533,16 @@ textarea {
   flex: 1;
 }
 
+/* Section Content Navigation */
+.section-content {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.section-content.active {
+  display: block;
+}
+
 /* ============================================================================
    ANIMATIONS
    ============================================================================ */

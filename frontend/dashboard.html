@@ -33,23 +33,23 @@
       <div class="sidebar-logo">EstateIQ</div>
 
       <ul class="sidebar-nav">
-        <li class="sidebar-nav-item active">
+        <li class="sidebar-nav-item active" data-section="dashboard">
           <span class="sidebar-nav-icon"></span>
           Dashboard
         </li>
-        <li class="sidebar-nav-item">
+        <li class="sidebar-nav-item" data-section="predictions">
           <span class="sidebar-nav-icon"></span>
           Predictions
         </li>
-        <li class="sidebar-nav-item">
+        <li class="sidebar-nav-item" data-section="analytics">
           <span class="sidebar-nav-icon"></span>
           Analytics
         </li>
-        <li class="sidebar-nav-item">
+        <li class="sidebar-nav-item" data-section="reports">
           <span class="sidebar-nav-icon"></span>
           Reports
         </li>
-        <li class="sidebar-nav-item">
+        <li class="sidebar-nav-item" data-section="settings">
           <span class="sidebar-nav-icon"></span>
           Settings
         </li>
@@ -66,6 +66,8 @@
 
     <!-- ========== MAIN CONTENT ========== -->
     <main class="main-content">
+      <!-- ========== DASHBOARD SECTION ========== -->
+      <div class="section-content active" data-section="dashboard">
       <!-- Top Bar -->
       <div style="height: 64px; border-bottom: 1px solid var(--color-border); background: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center; padding: 0 var(--spacing-32); position: sticky; top: 64px; z-index: 50;">
         <h4 style="margin: 0;">Dashboard</h4>
@@ -345,6 +347,242 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+      </div>
+
+      <!-- ========== PREDICTIONS SECTION ========== -->
+      <div class="section-content" data-section="predictions">
+        <!-- Top Bar -->
+        <div style="height: 64px; border-bottom: 1px solid var(--color-border); background: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center; padding: 0 var(--spacing-32); position: sticky; top: 64px; z-index: 50;">
+          <h4 style="margin: 0;">All Predictions</h4>
+          <button class="btn btn-primary" onclick="window.location.href='prediction.html'">+ New Prediction</button>
+        </div>
+
+        <div style="padding: var(--spacing-32);">
+          <div class="card in-view">
+            <div style="font-size: 14px; font-weight: 600; margin-bottom: 24px;">Recent Predictions History</div>
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #1E1E1E; border-bottom: 1px solid var(--color-border);">
+                  <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Date</th>
+                  <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Location</th>
+                  <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Area (sqft)</th>
+                  <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Predicted Price</th>
+                  <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Confidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+                  <td style="padding: var(--spacing-20); font-size: 13px;">2025-04-28 10:30</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px;">Bandra West</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">2,400</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono); color: var(--color-accent);">₹1.84 Cr</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; color: var(--color-success);">99.8%</td>
+                </tr>
+                <tr style="background: #111111; border-bottom: 1px solid var(--color-border);">
+                  <td style="padding: var(--spacing-20); font-size: 13px;">2025-04-28 09:15</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px;">Koramangala</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">1,800</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono); color: var(--color-accent);">₹1.24 Cr</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; color: var(--color-success);">98.5%</td>
+                </tr>
+                <tr style="background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+                  <td style="padding: var(--spacing-20); font-size: 13px;">2025-04-27 14:45</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px;">South Delhi</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">1,600</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono); color: var(--color-accent);">₹96 L</td>
+                  <td style="padding: var(--spacing-20); font-size: 13px; color: var(--color-success);">99.2%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== ANALYTICS SECTION ========== -->
+      <div class="section-content" data-section="analytics">
+        <!-- Top Bar -->
+        <div style="height: 64px; border-bottom: 1px solid var(--color-border); background: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center; padding: 0 var(--spacing-32); position: sticky; top: 64px; z-index: 50;">
+          <h4 style="margin: 0;">Analytics & Insights</h4>
+        </div>
+
+        <div style="padding: var(--spacing-32);">
+          <div class="grid-2" style="gap: var(--spacing-24); margin-bottom: var(--spacing-32);">
+            <div class="card in-view">
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 16px;">Total Predictions</div>
+              <div style="font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: var(--color-accent); margin-bottom: 12px;">
+                <span class="counter" data-target="12847">0</span>
+              </div>
+              <div style="font-size: 12px; color: var(--color-text-secondary);">Growth: <span style="color: var(--color-success);">+324</span> this week</div>
+            </div>
+
+            <div class="card in-view">
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 16px;">Average Error Rate</div>
+              <div style="font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: var(--color-accent); margin-bottom: 12px;">0.34%</div>
+              <div style="font-size: 12px; color: var(--color-text-secondary);">Within ±10% range: <span style="color: var(--color-success);">95.2%</span></div>
+            </div>
+          </div>
+
+          <div class="card in-view" style="margin-bottom: var(--spacing-32);">
+            <div style="font-size: 14px; font-weight: 600; margin-bottom: 24px;">Prediction Accuracy by Location</div>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                  <span>Mumbai</span>
+                  <span style="color: var(--color-text-muted); font-family: var(--font-mono);">99.84%</span>
+                </div>
+                <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; background: var(--color-accent); width: 99.84%; border-radius: 2px;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                  <span>Bangalore</span>
+                  <span style="color: var(--color-text-muted); font-family: var(--font-mono);">98.75%</span>
+                </div>
+                <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; background: var(--color-accent-dark); width: 98.75%; border-radius: 2px;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                  <span>Delhi</span>
+                  <span style="color: var(--color-text-muted); font-family: var(--font-mono);">97.42%</span>
+                </div>
+                <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; background: var(--color-accent); width: 97.42%; border-radius: 2px;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                  <span>Pune</span>
+                  <span style="color: var(--color-text-muted); font-family: var(--font-mono);">96.89%</span>
+                </div>
+                <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; background: var(--color-accent-dark); width: 96.89%; border-radius: 2px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== REPORTS SECTION ========== -->
+      <div class="section-content" data-section="reports">
+        <!-- Top Bar -->
+        <div style="height: 64px; border-bottom: 1px solid var(--color-border); background: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center; padding: 0 var(--spacing-32); position: sticky; top: 64px; z-index: 50;">
+          <h4 style="margin: 0;">Reports</h4>
+          <button class="btn btn-primary" id="generateReportBtn">+ Generate Report</button>
+        </div>
+
+        <div style="padding: var(--spacing-32);">
+          <div class="grid-2" style="gap: var(--spacing-24); margin-bottom: var(--spacing-32);">
+            <div class="card in-view">
+              <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px;">Monthly Summary</div>
+              <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 16px;">April 2025 Report</div>
+              <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" style="flex: 1; font-size: 12px;">📊 PDF</button>
+                <button class="btn btn-outline" style="flex: 1; font-size: 12px;">📋 CSV</button>
+              </div>
+            </div>
+
+            <div class="card in-view">
+              <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px;">Annual Report 2024</div>
+              <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 16px;">Full year analysis & metrics</div>
+              <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" style="flex: 1; font-size: 12px;">📊 PDF</button>
+                <button class="btn btn-outline" style="flex: 1; font-size: 12px;">📋 CSV</button>
+              </div>
+            </div>
+
+            <div class="card in-view">
+              <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px;">Location Insights</div>
+              <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 16px;">Regional performance analysis</div>
+              <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" style="flex: 1; font-size: 12px;">📊 PDF</button>
+                <button class="btn btn-outline" style="flex: 1; font-size: 12px;">📋 CSV</button>
+              </div>
+            </div>
+
+            <div class="card in-view">
+              <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px;">Model Performance</div>
+              <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 16px;">Accuracy & validation metrics</div>
+              <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" style="flex: 1; font-size: 12px;">📊 PDF</button>
+                <button class="btn btn-outline" style="flex: 1; font-size: 12px;">📋 CSV</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SETTINGS SECTION ========== -->
+      <div class="section-content" data-section="settings">
+        <!-- Top Bar -->
+        <div style="height: 64px; border-bottom: 1px solid var(--color-border); background: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center; padding: 0 var(--spacing-32); position: sticky; top: 64px; z-index: 50;">
+          <h4 style="margin: 0;">Settings</h4>
+        </div>
+
+        <div style="padding: var(--spacing-32); max-width: 600px;">
+          <!-- Account Settings -->
+          <div class="card in-view" style="margin-bottom: var(--spacing-32);">
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--color-border);">Account Settings</div>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--color-text-secondary);">Full Name</label>
+                <input type="text" placeholder="Your Name" style="width: 100%; padding: 8px 12px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary);">
+              </div>
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--color-text-secondary);">Email</label>
+                <input type="email" placeholder="your.email@company.com" style="width: 100%; padding: 8px 12px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary);">
+              </div>
+              <button class="btn btn-primary" style="align-self: flex-start; margin-top: 8px;">Save Changes</button>
+            </div>
+          </div>
+
+          <!-- Notification Settings -->
+          <div class="card in-view" style="margin-bottom: var(--spacing-32);">
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--color-border);">Notification Preferences</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;">
+                <span style="font-size: 13px;">Email notifications for new predictions</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;">
+                <span style="font-size: 13px;">Weekly performance summary</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
+                <span style="font-size: 13px;">Alert on low accuracy predictions</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- API Settings -->
+          <div class="card in-view" style="margin-bottom: var(--spacing-32);">
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--color-border);">API Configuration</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div>
+                <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--color-text-secondary);">API Key</div>
+                <div style="display: flex; gap: 8px;">
+                  <input type="password" value="••••••••••••••••••••" style="flex: 1; padding: 8px 12px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary);">
+                  <button class="btn btn-outline" style="padding: 8px 16px; font-size: 12px;">Copy</button>
+                </div>
+              </div>
+              <button class="btn btn-outline" style="align-self: flex-start;">Regenerate Key</button>
+            </div>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="card in-view" style="border: 1px solid rgba(255, 69, 69, 0.2); background: rgba(255, 69, 69, 0.05);">
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255, 69, 69, 0.2); color: #FF4545;">Danger Zone</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="font-size: 12px; color: var(--color-text-secondary);">Once you delete your account, there is no going back. Please be certain.</div>
+              <button class="btn" style="background: #FF4545; color: white; align-self: flex-start; padding: 8px 16px; border: none; border-radius: var(--radius-md); cursor: pointer; font-size: 12px;">Delete Account</button>
+            </div>
+          </div>
         </div>
       </div>
     </main>

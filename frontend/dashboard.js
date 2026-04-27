@@ -1,6 +1,53 @@
 // ============================================================================
-// DASHBOARD PAGE INTERACTIONS
+// SIDEBAR NAVIGATION & SECTION SWITCHING
 // ============================================================================
+
+const sidebarItems = document.querySelectorAll('.sidebar-nav-item');
+const sections = document.querySelectorAll('.section-content');
+
+sidebarItems.forEach(item => {
+  item.addEventListener('click', () => {
+    // Remove active class from all items
+    sidebarItems.forEach(i => i.classList.remove('active'));
+    
+    // Add active class to clicked item
+    item.classList.add('active');
+    
+    // Get the section name
+    const sectionName = item.getAttribute('data-section');
+    
+    // Hide all sections
+    sections.forEach(section => {
+      section.classList.remove('active');
+    });
+    
+    // Show the selected section - be specific about finding .section-content
+    const activeSection = document.querySelector(`.section-content[data-section="${sectionName}"]`);
+    if (activeSection) {
+      activeSection.classList.add('active');
+      
+      // Trigger animations on newly visible content
+      const counters = activeSection.querySelectorAll('.counter');
+      counters.forEach(counter => {
+        if (counter.dataset.animated !== 'true') {
+          animateCounter(counter);
+        }
+      });
+    }
+  });
+});
+
+// ============================================================================
+// REPORTS GENERATION
+// ============================================================================
+
+const generateReportBtn = document.getElementById('generateReportBtn');
+if (generateReportBtn) {
+  generateReportBtn.addEventListener('click', () => {
+    alert('📊 Report generation feature coming soon!\n\nYou will be able to:\n✓ Generate PDF reports\n✓ Export to CSV\n✓ Schedule automated reports\n✓ Download custom analytics');
+    console.log('✓ Report generation initiated');
+  });
+}
 
 // ============================================================================
 // FETCH REAL METRICS FROM API
@@ -60,19 +107,6 @@ window.addEventListener('scroll', () => {
   } else {
     navbar.classList.remove('scrolled');
   }
-});
-
-// ============================================================================
-// SIDEBAR NAVIGATION
-// ============================================================================
-
-const sidebarItems = document.querySelectorAll('.sidebar-nav-item');
-
-sidebarItems.forEach(item => {
-  item.addEventListener('click', () => {
-    sidebarItems.forEach(i => i.classList.remove('active'));
-    item.classList.add('active');
-  });
 });
 
 // ============================================================================
