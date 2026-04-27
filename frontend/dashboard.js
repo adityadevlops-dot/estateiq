@@ -3,6 +3,52 @@
 // ============================================================================
 
 // ============================================================================
+// FETCH REAL METRICS FROM API
+// ============================================================================
+
+async function loadMetrics() {
+  try {
+    console.log('📊 Fetching metrics from backend API...');
+    
+    const response = await fetch('http://localhost:5000/api/metrics');
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    
+    const data = await response.json();
+    console.log('✓ Metrics loaded:', data);
+    
+    if (data.success && data.data) {
+      const metrics = data.data;
+      
+      // Update model accuracy
+      const accuracyElement = document.querySelector('[data-metric="accuracy"]');
+      if (accuracyElement) {
+        accuracyElement.textContent = `${(metrics.model_r2_score * 100).toFixed(2)}%`;
+      }
+      
+      // Update MAE
+      const maeElement = document.querySelector('[data-metric="mae"]');
+      if (maeElement) {
+        const mae = Math.round(metrics.model_mae);
+        maeElement.textContent = `₹${(mae / 100000).toFixed(2)}L`;
+      }
+      
+      console.log('✓ Dashboard metrics updated with live data');
+      return metrics;
+    }
+  } catch (error) {
+    console.warn('⚠️ Could not load metrics from API:', error.message);
+    console.warn('Using demo data instead');
+  }
+  
+  return null;
+}
+
+// Load metrics on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadMetrics();
+});
+
+// ============================================================================
 // NAVBAR SCROLL DETECTION
 // ============================================================================
 

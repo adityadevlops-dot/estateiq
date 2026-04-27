@@ -196,68 +196,122 @@ function validateForm() {
 
 function getFormData() {
   return {
-    area: parseInt(document.getElementById('area').value),
+    area_sqft: parseInt(document.getElementById('area').value),
     location: document.getElementById('location').value,
     bedrooms: parseInt(sessionStorage.getItem('selected-bedroomGroup')),
     bathrooms: parseInt(sessionStorage.getItem('selected-bathroomGroup')),
-    age: parseInt(document.getElementById('age').value),
-    floor: parseInt(document.getElementById('floor').value) || 0,
+    age_years: parseInt(document.getElementById('age').value),
+    floor: parseInt(document.getElementById('floor').value) || 1,
     furnishing: sessionStorage.getItem('selected-furnishingGroup') || 'Unfurnished',
-    parking: document.getElementById('parking').checked,
-    amenities: Array.from(selectedAmenities)
+    parking: document.getElementById('parking').checked ? 1 : 0
   };
 }
 
 // ============================================================================
-// SIMULATE PREDICTION API
+// PREDICTION API (Real Backend)
 // ============================================================================
 
-function simulatePrediction(formData) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Mock prediction based on location
-      const locationMultipliers = {
-        'Mumbai': 2.5,
-        'Bangalore': 1.8,
-        'Delhi': 1.9,
-        'Pune': 1.4,
-        'Hyderabad': 1.5,
-        'Chennai': 1.3,
-        'Kolkata': 1.1,
-        'Ahmedabad': 1.0
-      };
-      
-      const basePrice = 15000; // per sqft
-      const multiplier = locationMultipliers[formData.location] || 1.5;
-      const pricePerSqft = basePrice * multiplier * (1 - formData.age * 0.005);
-      const predictedPrice = pricePerSqft * formData.area;
-      
-      // Add confidence based on data completeness
-      let confidence = 70;
-      if (formData.bedrooms && formData.bathrooms) confidence += 10;
-      if (formData.furnishing) confidence += 8;
-      if (selectedAmenities.size > 0) confidence += 5;
-      if (formData.parking) confidence += 3;
-      
-      confidence = Math.min(confidence, 95);
-      
-      const variance = predictedPrice * (1 - confidence / 100) * 0.5;
-      
-      resolve({
-        predictedPrice: Math.round(predictedPrice),
-        minPrice: Math.round(predictedPrice - variance),
-        maxPrice: Math.round(predictedPrice + variance),
-        confidence: Math.round(confidence),
-        features: {
-          location: 34,
-          area: 28,
-          bedrooms: 18,
-          age: 11,
-          other: 9
-        }
-      });
-    }, 1200);
-  });
+async function simulatePrediction(formData) {
+  try {
+    console.log('🔄 Calling backend API with data:', formData);
+    
+    // Call real backend API
+    const response = await fetch('http://localhost:5000/api/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+    
+    // Handle HTTP errors
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Backend error: ${response.status} - ${errorData.error || errorData.errors?.[0] || response.statusText}`);
+    }
+    
+    const data = await response.json();
+    console.log('✓ Backend response:', data);
+    
+    if (!data.success || !data.data) {
+      throw new Error(data.error || 'Invalid response format');
+    }
+    
+    // Transform backend response to UI format
+    const predictedPrice = parseInt(data.data.predicted_price);
+    const confidence = Math.round((data.data.confidence_range?.confidence || 85) * 100) / 100;
+    const minPrice = Math.round(data.data.confidence_range?.min_price || predictedPrice * 0.9);
+    const maxPrice = Math.round(data.data.confidence_range?.max_price || predictedPrice * 1.1);
+    
+    // Extract feature importances and convert to percentages
+    const features = {};
+    const importances = data.data.feature_importances || {};
+    
+    // Top 5 features
+    const topFeatures = Object.entries(importances)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5);
+    
+    let totalImportance = topFeatures.reduce((sum, [, val]) => sum + val, 0);
+    
+    topFeatures.forEach(([feature, importance]) => {
+      features[feature] = Math.round((importance / totalImportance) * 100);
+    });
+    
+    // Ensure we have at least 100%
+    if (Object.values(features).reduce((a, b) => a + b, 0) < 100) {
+      features['other'] = 100 - Object.values(features).reduce((a, b) => a + b, 0);
+    }
+    
+    return {
+      predictedPrice,
+      minPrice,
+      maxPrice,
+      confidence: Math.round(confidence),
+      features
+    };
+    
+  } catch (error) {
+    console.error('✗ API call failed:', error.message);
+    
+    // Fallback: Show user-friendly error and use mock data for demo
+    const errorMsg = error.message.includes('Failed to fetch') 
+      ? 'Cannot connect to backend API. Ensure server is running on http://localhost:5000'
+      : error.message;
+    
+    alert(`⚠️ Backend Connection Error\n\n${errorMsg}\n\nUsing demo data for this prediction.`);
+    
+    // Fallback mock prediction
+    const locationMultipliers = {
+      'Mumbai': 2.5, 'Bangalore': 1.8, 'Delhi': 1.9, 'Pune': 1.4,
+      'Hyderabad': 1.5, 'Chennai': 1.3, 'Kolkata': 1.1, 'Ahmedabad': 1.0
+    };
+    
+    const basePrice = 15000;
+    const multiplier = locationMultipliers[formData.location] || 1.5;
+    const pricePerSqft = basePrice * multiplier * (1 - formData.age_years * 0.005);
+    const predictedPrice = Math.round(pricePerSqft * formData.area_sqft);
+    
+    let confidence = 70;
+    if (formData.bedrooms && formData.bathrooms) confidence += 10;
+    if (formData.furnishing) confidence += 8;
+    if (selectedAmenities.size > 0) confidence += 5;
+    if (formData.parking) confidence += 3;
+    confidence = Math.min(confidence, 85); // Reduced when using fallback
+    
+    const variance = predictedPrice * (1 - confidence / 100) * 0.5;
+    
+    return {
+      predictedPrice,
+      minPrice: Math.round(predictedPrice - variance),
+      maxPrice: Math.round(predictedPrice + variance),
+      confidence,
+      features: {
+        location: 34, area: 28, bedrooms: 18, age: 11, other: 9
+      }
+    };
+  }
 }
 
 // ============================================================================
@@ -390,7 +444,39 @@ document.querySelectorAll('button').forEach(btn => {
 });
 
 // ============================================================================
-// INITIALIZE
+// INITIALIZATION
 // ============================================================================
 
 console.log('✓ Prediction page initialized');
+
+// Check API availability on page load
+(async () => {
+  try {
+    const response = await fetch('http://localhost:5000/health', { 
+      method: 'GET',
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      console.log('✅ Backend API is available:', data);
+      
+      // Show success indicator
+      const statusEl = document.querySelector('.api-status');
+      if (statusEl) {
+        statusEl.classList.add('connected');
+        statusEl.title = 'Backend API connected';
+      }
+    }
+  } catch (error) {
+    console.warn('⚠️ Backend API not available yet. Start server with: python run_api.py');
+    console.warn('Error:', error.message);
+    
+    // Show warning indicator
+    const statusEl = document.querySelector('.api-status');
+    if (statusEl) {
+      statusEl.classList.add('disconnected');
+      statusEl.title = 'Backend API not available. Start with: python run_api.py';
+    }
+  }
+})();
