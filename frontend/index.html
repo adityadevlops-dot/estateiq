@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EstateIQ - Intelligent Real Estate Valuation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- ========== HEADER / NAVIGATION ========== -->
+  <header class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-brand">
+        <div class="navbar-logo"></div>
+        <span class="navbar-wordmark">EstateIQ</span>
+      </a>
+
+      <nav class="navbar-nav">
+        <a href="#features">Features</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="prediction.html">Predict</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <button class="btn btn-outline">Get Started</button>
+    </div>
+  </header>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section class="hero" style="margin-top: 64px; height: 100vh; position: relative; overflow: hidden;">
+    <!-- Background Image with Overlay -->
+    <div class="hero-background" style="position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&h=1200&fit=crop'); background-size: cover; background-position: center;"></div>
+    <div class="hero-overlay" style="position: absolute; inset: 0; background: rgba(10, 10, 10, 0.72);"></div>
+
+    <!-- Hero Content -->
+    <div class="container" style="position: relative; z-index: 10; height: 100%; display: flex; align-items: center;">
+      <div style="display: grid; grid-template-columns: 55% 45%; gap: 48px; width: 100%; align-items: center;">
+        <!-- Left Column: Text -->
+        <div>
+          <span class="section-label" style="animation: slideUp 0.8s var(--easing) 0s both;">
+            INTELLIGENT REAL ESTATE ANALYTICS
+          </span>
+
+          <h1 style="margin: 16px 0 24px 0; animation: slideUp 0.8s var(--easing) 0.1s both;">
+            Know what a home is worth — before you decide.
+          </h1>
+
+          <p style="font-size: 18px; max-width: 480px; margin-bottom: 32px; animation: slideUp 0.8s var(--easing) 0.2s both;">
+            EstateIQ uses machine learning to deliver precise property valuations. Built for analysts, investors, and professionals who demand accuracy.
+          </p>
+
+          <!-- Input Row -->
+          <div style="display: flex; gap: 12px; margin-bottom: 16px; animation: slideUp 0.8s var(--easing) 0.3s both;">
+            <input type="number" placeholder="Enter property area in sq ft…" style="flex: 1;">
+            <button class="btn btn-primary btn-lg">Predict Price</button>
+          </div>
+
+          <p style="font-size: 12px; color: var(--color-text-muted);">
+            No signup required · Instant results · ML-powered
+          </p>
+        </div>
+
+        <!-- Right Column: Floating Stat Card -->
+        <div class="card glass" style="animation: slideUp 0.8s var(--easing) 0.4s both;">
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- Stat 1 -->
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 40px; font-weight: 700; color: var(--color-accent); margin-bottom: 8px;">
+                94.2%
+              </div>
+              <div style="font-size: 12px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary);">
+                Prediction Accuracy
+              </div>
+            </div>
+
+            <div style="height: 1px; background: var(--color-border);"></div>
+
+            <!-- Stat 2 -->
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--color-accent); margin-bottom: 8px;">
+                ₹2.4Cr
+              </div>
+              <div style="font-size: 12px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary);">
+                Avg. Predicted Value
+              </div>
+            </div>
+
+            <div style="height: 1px; background: var(--color-border);"></div>
+
+            <!-- Stat 3 -->
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--color-accent); margin-bottom: 8px;">
+                12,000+
+              </div>
+              <div style="font-size: 12px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary);">
+                Properties Analyzed
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Badge -->
+          <div style="position: absolute; bottom: 32px; right: 32px; display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--color-success);">
+            <span style="width: 6px; height: 6px; background: var(--color-success); border-radius: 50%; animation: pulse-dot 2s infinite;"></span>
+            Live Model
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div style="position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 20;">
+      <div style="width: 24px; height: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; animation: pulse 2s infinite;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TRUST STRIP ========== -->
+  <section style="background: var(--color-bg-secondary); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); padding: 32px 0;">
+    <div class="container">
+      <div style="text-align: center; font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 24px;">
+        TRUSTED BY PROFESSIONALS AT
+      </div>
+      <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 24px;">
+        <span style="font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: #3A3A3A;">Prestige Group</span>
+        <span style="font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: #3A3A3A;">Brigade Corp</span>
+        <span style="font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: #3A3A3A;">HDFC Realty</span>
+        <span style="font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: #3A3A3A;">Godrej Properties</span>
+        <span style="font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: #3A3A3A;">PropTiger</span>
+        <span style="font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: #3A3A3A;">MagicBricks</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURES SECTION ========== -->
+  <section class="section" id="features" style="background: var(--color-bg-primary);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">PLATFORM CAPABILITIES</span>
+        <h2 class="section-title">Everything you need to value property precisely</h2>
+        <p class="section-subtitle">Comprehensive tools and integrations for professional real estate analysis</p>
+      </div>
+
+      <div class="grid-3">
+        <!-- Feature 1 -->
+        <div class="card in-view-delayed-1">
+          <div style="width: 32px; height: 32px; background: rgba(200, 169, 110, 0.08); border: 1px solid rgba(200, 169, 110, 0.2); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-accent)" stroke-width="1.5">
+              <circle cx="8" cy="8" r="6"/>
+              <path d="M8 5v6M5 8h6"/>
+            </svg>
+          </div>
+          <h4 style="margin-bottom: 12px;">ML Price Engine</h4>
+          <p style="font-size: 14px;">Advanced machine learning models trained on thousands of properties for pinpoint accuracy.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="card in-view-delayed-2">
+          <div style="width: 32px; height: 32px; background: rgba(200, 169, 110, 0.08); border: 1px solid rgba(200, 169, 110, 0.2); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-accent)" stroke-width="1.5">
+              <path d="M8 1v14M1 8h14M8 4L5 7h6M8 12l-3-3h6"/>
+            </svg>
+          </div>
+          <h4 style="margin-bottom: 12px;">Location Intelligence</h4>
+          <p style="font-size: 14px;">Geo-based pricing analysis with micro-market awareness for exact neighborhood valuations.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card in-view-delayed-3">
+          <div style="width: 32px; height: 32px; background: rgba(200, 169, 110, 0.08); border: 1px solid rgba(200, 169, 110, 0.2); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-accent)" stroke-width="1.5">
+              <rect x="2" y="2" width="12" height="12" rx="1"/>
+              <path d="M2 6h12M6 6v8M10 6v8"/>
+            </svg>
+          </div>
+          <h4 style="margin-bottom: 12px;">Market Benchmarks</h4>
+          <p style="font-size: 14px;">Compare valuations against live market data and historical trends for context.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card in-view-delayed-4">
+          <div style="width: 32px; height: 32px; background: rgba(200, 169, 110, 0.08); border: 1px solid rgba(200, 169, 110, 0.2); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-accent)" stroke-width="1.5">
+              <path d="M1 8h14M8 1v14M14 8a6 6 0 01-12 0 6 6 0 0112 0z"/>
+            </svg>
+          </div>
+          <h4 style="margin-bottom: 12px;">Instant API Access</h4>
+          <p style="font-size: 14px;">RESTful API for seamless integration with your existing platforms and workflows.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="card in-view-delayed-5">
+          <div style="width: 32px; height: 32px; background: rgba(200, 169, 110, 0.08); border: 1px solid rgba(200, 169, 110, 0.2); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-accent)" stroke-width="1.5">
+              <path d="M3 5h10a1 1 0 011 1v8a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm0-3h10a1 1 0 010 2H3a1 1 0 010-2z"/>
+            </svg>
+          </div>
+          <h4 style="margin-bottom: 12px;">Power BI Integration</h4>
+          <p style="font-size: 14px;">Export predictions directly to Power BI for enterprise-grade analytics dashboards.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="card in-view-delayed-6">
+          <div style="width: 32px; height: 32px; background: rgba(200, 169, 110, 0.08); border: 1px solid rgba(200, 169, 110, 0.2); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-accent)" stroke-width="1.5">
+              <path d="M2 3h12a1 1 0 011 1v10a1 1 0 01-1 1H2a1 1 0 01-1-1V4a1 1 0 011-1zm1 3h10M2 10h12"/>
+            </svg>
+          </div>
+          <h4 style="margin-bottom: 12px;">Audit-Ready Reports</h4>
+          <p style="font-size: 14px;">Generate compliance-ready documents with detailed methodology and confidence intervals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOW IT WORKS ========== -->
+  <section class="section" style="background: var(--color-bg-secondary);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center;">
+        <!-- Left: Steps -->
+        <div>
+          <div style="margin-bottom: 64px;">
+            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 32px; position: relative;">
+              <!-- Vertical line -->
+              <div style="position: absolute; left: 60px; top: 60px; bottom: 0; width: 1px; background: url('data:image/svg+xml,%3Csvg width=%221%22 height=%2240%22 viewBox=%220 0 1 40%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cline x1=%220.5%22 y1=%220%22 x2=%220.5%22 y2=%2240%22 stroke=%22%23C8A96E%22 stroke-dasharray=%225,5%22/%3E%3C/svg%3E') repeat-y;"></div>
+
+              <!-- Step 1 -->
+              <div style="position: relative;">
+                <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--font-letter-spacing-label); color: var(--color-accent);">
+                  01 / 03
+                </div>
+              </div>
+              <div>
+                <h4 style="margin-bottom: 12px;">Enter Property Details</h4>
+                <p style="font-size: 14px;">Provide property information including location, area, bedrooms, and amenities.</p>
+              </div>
+
+              <!-- Step 2 -->
+              <div style="position: relative; margin-top: 48px;">
+                <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--font-letter-spacing-label); color: var(--color-accent);">
+                  02 / 03
+                </div>
+              </div>
+              <div style="margin-top: 48px;">
+                <h4 style="margin-bottom: 12px;">Model Analyzes 40+ Features</h4>
+                <p style="font-size: 14px;">Our ML engine processes all data against trained models with real-time market data.</p>
+              </div>
+
+              <!-- Step 3 -->
+              <div style="position: relative; margin-top: 48px;">
+                <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--font-letter-spacing-label); color: var(--color-accent);">
+                  03 / 03
+                </div>
+              </div>
+              <div style="margin-top: 48px;">
+                <h4 style="margin-bottom: 12px;">Get Precise Valuation Instantly</h4>
+                <p style="font-size: 14px;">Receive estimated price with confidence bands and breakdown of key value drivers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Output Example -->
+        <div class="card" style="background: #0A0A0A; border: 1px solid var(--color-border);">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 24px;">
+            Sample Output
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 13px; color: var(--color-accent); line-height: 1.8;">
+            <div style="color: var(--color-text-secondary);">$ predict_price({</div>
+            <div style="margin-left: 16px;">
+              <div style="color: var(--color-text-secondary);">location: <span style="color: #F0EDE8;">"Mumbai"</span>,</div>
+              <div style="color: var(--color-text-secondary);">area_sqft: <span style="color: #F0EDE8;">2400</span>,</div>
+              <div style="color: var(--color-text-secondary);">bedrooms: <span style="color: #F0EDE8;">3</span></div>
+            </div>
+            <div style="color: var(--color-text-secondary);">})</div>
+            <div style="margin-top: 20px; color: var(--color-text-secondary);">→ <span style="color: var(--color-accent);">₹1,84,00,000</span></div>
+            <div style="color: var(--color-text-secondary); margin-top: 8px;">Range: ₹1.68Cr – ₹2.02Cr</div>
+            <div style="color: var(--color-text-secondary); margin-top: 8px;">Confidence: 89%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA SECTION ========== -->
+  <section class="section" style="background: var(--color-bg-primary); text-align: center;">
+    <div class="container">
+      <h2 class="in-view" style="margin-bottom: 32px;">Start predicting today.</h2>
+      <button class="btn btn-primary btn-lg in-view-delayed-1" style="margin-bottom: 48px;">
+        Launch Dashboard →
+      </button>
+
+      <!-- Footer -->
+      <footer style="border-top: 1px solid var(--color-border); padding-top: 64px; margin-top: 64px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 48px;">
+          <div style="text-align: left;">
+            <div class="navbar-wordmark" style="margin-bottom: 12px;">EstateIQ</div>
+            <p style="font-size: 13px;">Intelligent real estate valuation for modern professionals.</p>
+          </div>
+          <div style="text-align: right; display: flex; justify-content: flex-end; gap: 32px; flex-direction: column;">
+            <a href="#" style="color: var(--color-text-secondary); text-decoration: none; font-size: 13px;">Documentation</a>
+            <a href="#" style="color: var(--color-text-secondary); text-decoration: none; font-size: 13px;">API Reference</a>
+            <a href="#" style="color: var(--color-text-secondary); text-decoration: none; font-size: 13px;">Support</a>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--color-border); padding-top: 24px;">
+          <p style="font-size: 12px; color: var(--color-text-muted);">
+            © 2025 EstateIQ. All rights reserved. · Built with machine learning.
+          </p>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <script src="landing.js"></script>
+</body>
+</html>

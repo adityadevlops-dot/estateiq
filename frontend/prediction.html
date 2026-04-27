@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Valuation - EstateIQ</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Segmented Button Styles */
+    .segmented-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: var(--spacing-20);
+    }
+
+    .segmented-btn {
+      flex: 1;
+      padding: 12px 16px;
+      background-color: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s var(--easing);
+    }
+
+    .segmented-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-text-primary);
+    }
+
+    .segmented-btn.active {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+
+    /* Toggle Switch */
+    .toggle-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--color-border);
+      transition: 0.3s;
+      border-radius: 28px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--color-surface);
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--color-accent);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(22px);
+    }
+
+    /* Pill Tags */
+    .pill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      background-color: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s var(--easing);
+    }
+
+    .pill-tag:hover {
+      border-color: var(--color-accent);
+      color: var(--color-text-primary);
+    }
+
+    .pill-tag.active {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: none;
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(200, 169, 110, 0.2);
+      border-top: 2px solid var(--color-accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    .spinner.show {
+      display: block;
+    }
+
+    /* Range Slider */
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--color-border);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      cursor: pointer;
+      border: none;
+      transition: 0.3s;
+    }
+
+    input[type="range"]::-moz-range-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .range-value {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .range-output {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+
+    /* Result Output */
+    .output-placeholder {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 24px;
+    }
+
+    .house-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .house-icon::before {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: var(--color-border);
+      border-radius: 4px;
+      left: 10px;
+      top: 20px;
+    }
+
+    .house-icon::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 40px solid transparent;
+      border-right: 40px solid transparent;
+      border-bottom: 40px solid var(--color-border);
+      left: 0;
+      top: 0;
+    }
+
+    .result-card {
+      display: none;
+    }
+
+    .result-card.show {
+      display: block;
+      animation: slideUp 0.8s var(--easing);
+    }
+
+    .confidence-bar {
+      height: 8px;
+      background: var(--color-border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dark));
+      width: 0%;
+      border-radius: 4px;
+      transition: width 1.2s var(--easing);
+    }
+
+    .feature-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .feature-table td {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 12px;
+    }
+
+    .feature-table td:first-child {
+      color: var(--color-text-secondary);
+    }
+
+    .feature-table td:last-child {
+      text-align: right;
+      color: var(--color-accent);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .feature-bar {
+      display: inline-block;
+      height: 4px;
+      background: rgba(200, 169, 110, 0.2);
+      border-radius: 2px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- ========== HEADER / NAVIGATION ========== -->
+  <header class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-brand">
+        <div class="navbar-logo"></div>
+        <span class="navbar-wordmark">EstateIQ</span>
+      </a>
+
+      <nav class="navbar-nav">
+        <a href="index.html#features">Features</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="prediction.html" style="color: var(--color-text-primary);">Predict</a>
+        <a href="index.html#about">About</a>
+      </nav>
+
+      <button class="btn btn-outline">Account</button>
+    </div>
+  </header>
+
+  <!-- ========== LAYOUT WRAPPER ========== -->
+  <div class="layout-sidebar" style="margin-top: 64px;">
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">EstateIQ</div>
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <span class="sidebar-nav-icon"></span>
+          Dashboard
+        </li>
+        <li class="sidebar-nav-item active">
+          <span class="sidebar-nav-icon"></span>
+          Predictions
+        </li>
+        <li class="sidebar-nav-item">
+          <span class="sidebar-nav-icon"></span>
+          Analytics
+        </li>
+        <li class="sidebar-nav-item">
+          <span class="sidebar-nav-icon"></span>
+          Reports
+        </li>
+        <li class="sidebar-nav-item">
+          <span class="sidebar-nav-icon"></span>
+          Settings
+        </li>
+      </ul>
+
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar"></div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Analyst</div>
+          <div class="sidebar-user-role">Pro Plan</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main-content">
+      <div style="min-height: calc(100vh - 64px); display: flex; align-items: center; padding: var(--spacing-48);">
+        <div style="width: 100%; display: grid; grid-template-columns: 55% 45%; gap: var(--spacing-64); align-items: stretch;">
+          <!-- ========== LEFT: INPUT FORM ========== -->
+          <div class="card" style="background: var(--color-surface); display: flex; flex-direction: column; justify-content: center;">
+            <div style="margin-bottom: var(--spacing-32);">
+              <span class="section-label" style="display: block;">PROPERTY DETAILS</span>
+              <h3 style="margin-top: var(--spacing-16);">Estimate Property Value</h3>
+            </div>
+
+            <form id="predictionForm">
+              <!-- Area Input -->
+              <div class="form-group">
+                <label for="area">Property Area (sq ft)</label>
+                <input type="number" id="area" placeholder="e.g. 1200" min="100" max="50000" required>
+              </div>
+
+              <!-- Location Select -->
+              <div class="form-group">
+                <label for="location">Location / City</label>
+                <select id="location" required>
+                  <option value="">Select a location...</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Bangalore">Bangalore</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Pune">Pune</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Chennai">Chennai</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Ahmedabad">Ahmedabad</option>
+                </select>
+              </div>
+
+              <!-- Bedrooms Segmented -->
+              <div class="form-group">
+                <label>Number of Bedrooms</label>
+                <div class="segmented-group" id="bedroomGroup">
+                  <button type="button" class="segmented-btn" data-value="1">1BHK</button>
+                  <button type="button" class="segmented-btn" data-value="2">2BHK</button>
+                  <button type="button" class="segmented-btn" data-value="3">3BHK</button>
+                  <button type="button" class="segmented-btn" data-value="4">4BHK</button>
+                  <button type="button" class="segmented-btn" data-value="5">5BHK+</button>
+                </div>
+              </div>
+
+              <!-- Bathrooms Segmented -->
+              <div class="form-group">
+                <label>Number of Bathrooms</label>
+                <div class="segmented-group" id="bathroomGroup">
+                  <button type="button" class="segmented-btn" data-value="1">1</button>
+                  <button type="button" class="segmented-btn" data-value="2">2</button>
+                  <button type="button" class="segmented-btn" data-value="3">3</button>
+                  <button type="button" class="segmented-btn" data-value="4">4+</button>
+                </div>
+              </div>
+
+              <!-- Property Age Range Slider -->
+              <div class="form-group">
+                <label>Property Age (years)</label>
+                <div class="range-value">
+                  <span style="font-size: 12px; color: var(--color-text-secondary);">New to Old</span>
+                  <span class="range-output" id="ageOutput">0</span>
+                </div>
+                <input type="range" id="age" min="0" max="100" value="15" style="margin-top: var(--spacing-8);">
+              </div>
+
+              <!-- Floor Number -->
+              <div class="form-group">
+                <label for="floor">Floor Number</label>
+                <input type="number" id="floor" placeholder="e.g. 5" min="0" max="100">
+              </div>
+
+              <!-- Furnishing Status -->
+              <div class="form-group">
+                <label>Furnishing Status</label>
+                <div class="segmented-group" id="furnishingGroup">
+                  <button type="button" class="segmented-btn" data-value="Unfurnished">Unfurnished</button>
+                  <button type="button" class="segmented-btn" data-value="Semi-Furnished">Semi-Furnished</button>
+                  <button type="button" class="segmented-btn" data-value="Fully Furnished">Fully Furnished</button>
+                </div>
+              </div>
+
+              <!-- Parking Available -->
+              <div class="form-group">
+                <label>Parking Available</label>
+                <div class="toggle-wrapper">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="parking">
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span style="font-size: 13px; color: var(--color-text-secondary);" id="parkingLabel">No</span>
+                </div>
+              </div>
+
+              <!-- Amenities -->
+              <div class="form-group">
+                <label>Amenities</label>
+                <div class="pill-tags">
+                  <button type="button" class="pill-tag" data-amenity="Gym">Gym</button>
+                  <button type="button" class="pill-tag" data-amenity="Pool">Pool</button>
+                  <button type="button" class="pill-tag" data-amenity="Security">Security</button>
+                  <button type="button" class="pill-tag" data-amenity="Lift">Lift</button>
+                  <button type="button" class="pill-tag" data-amenity="Garden">Garden</button>
+                  <button type="button" class="pill-tag" data-amenity="Club House">Club House</button>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top: var(--spacing-32);">
+                Predict Price Now
+              </button>
+
+              <p style="font-size: 12px; color: var(--color-text-muted); margin-top: var(--spacing-16); text-align: center;">
+                Results are ML-powered estimates. Actual prices may vary.
+              </p>
+            </form>
+          </div>
+
+          <!-- ========== RIGHT: OUTPUT DISPLAY ========== -->
+          <div class="card" style="background: var(--color-surface); display: flex; flex-direction: column; justify-content: center;">
+            <div id="outputPlaceholder" class="output-placeholder">
+              <div class="house-icon"></div>
+              <div>
+                <p style="font-size: 14px; color: var(--color-text-secondary);">Your prediction will appear here</p>
+              </div>
+            </div>
+
+            <div id="resultCard" class="result-card">
+              <div style="margin-bottom: var(--spacing-24);">
+                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 12px;">
+                  Estimated Market Value
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 52px; font-weight: 700; color: var(--color-accent); margin-bottom: 8px;">
+                  <span id="predictedPrice">₹ 0</span>
+                </div>
+                <div style="font-size: 14px; color: var(--color-text-secondary);" id="predictedCrore"></div>
+              </div>
+
+              <div style="margin-bottom: var(--spacing-24);">
+                <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 8px;" id="confidenceText">Range: ₹0 – ₹0</div>
+                <div class="confidence-bar">
+                  <div class="confidence-fill" id="confidenceFill"></div>
+                </div>
+                <div style="font-size: 12px; color: var(--color-text-secondary);" id="confidenceLabel">Confidence: 0%</div>
+              </div>
+
+              <div style="padding: var(--spacing-24) 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 12px;">
+                  Feature Importance
+                </div>
+                <table class="feature-table">
+                  <tbody id="featureTable">
+                    <tr>
+                      <td>Location</td>
+                      <td><span class="feature-bar" style="width: 34%;"></span>34%</td>
+                    </tr>
+                    <tr>
+                      <td>Area</td>
+                      <td><span class="feature-bar" style="width: 28%;"></span>28%</td>
+                    </tr>
+                    <tr>
+                      <td>Bedrooms</td>
+                      <td><span class="feature-bar" style="width: 18%;"></span>18%</td>
+                    </tr>
+                    <tr>
+                      <td>Age</td>
+                      <td><span class="feature-bar" style="width: 11%;"></span>11%</td>
+                    </tr>
+                    <tr>
+                      <td>Other</td>
+                      <td><span class="feature-bar" style="width: 9%;"></span>9%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="display: flex; gap: var(--spacing-16); margin-top: var(--spacing-24);">
+                <button class="btn btn-outline" style="flex: 1;">Download Report</button>
+                <button class="btn btn-text" style="flex: 1; border: none;">New Prediction</button>
+              </div>
+            </div>
+
+            <div id="loadingSpinner" class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="prediction.js"></script>
+</body>
+</html>

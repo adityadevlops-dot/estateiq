@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - EstateIQ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- ========== HEADER / NAVIGATION ========== -->
+  <header class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-brand">
+        <div class="navbar-logo"></div>
+        <span class="navbar-wordmark">EstateIQ</span>
+      </a>
+
+      <nav class="navbar-nav">
+        <a href="index.html#features">Features</a>
+        <a href="dashboard.html" style="color: var(--color-text-primary);">Dashboard</a>
+        <a href="prediction.html">Predict</a>
+        <a href="index.html#about">About</a>
+      </nav>
+
+      <button class="btn btn-outline">Account</button>
+    </div>
+  </header>
+
+  <!-- ========== LAYOUT WRAPPER ========== -->
+  <div class="layout-sidebar" style="margin-top: 64px;">
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">EstateIQ</div>
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item active">
+          <span class="sidebar-nav-icon"></span>
+          Dashboard
+        </li>
+        <li class="sidebar-nav-item">
+          <span class="sidebar-nav-icon"></span>
+          Predictions
+        </li>
+        <li class="sidebar-nav-item">
+          <span class="sidebar-nav-icon"></span>
+          Analytics
+        </li>
+        <li class="sidebar-nav-item">
+          <span class="sidebar-nav-icon"></span>
+          Reports
+        </li>
+        <li class="sidebar-nav-item">
+          <span class="sidebar-nav-icon"></span>
+          Settings
+        </li>
+      </ul>
+
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar"></div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Analyst</div>
+          <div class="sidebar-user-role">Pro Plan</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <div style="height: 64px; border-bottom: 1px solid var(--color-border); background: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center; padding: 0 var(--spacing-32); position: sticky; top: 64px; z-index: 50;">
+        <h4 style="margin: 0;">Dashboard</h4>
+        <div style="display: flex; align-items: center; gap: var(--spacing-24);">
+          <span style="font-size: 13px; color: var(--color-text-secondary);">April 2025</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-secondary)" stroke-width="1.5">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          <div style="width: 28px; height: 28px; background: var(--color-border); border-radius: 50%;"></div>
+        </div>
+      </div>
+
+      <!-- Filters Panel -->
+      <div style="background: var(--color-bg-secondary); border-bottom: 1px solid var(--color-border); padding: 16px var(--spacing-32); display: flex; gap: var(--spacing-24); align-items: center; flex-wrap: wrap;">
+        <select style="width: 160px;">
+          <option>All Locations</option>
+          <option>Mumbai</option>
+          <option>Bangalore</option>
+          <option>Delhi</option>
+          <option>Pune</option>
+          <option>Hyderabad</option>
+        </select>
+
+        <select style="width: 160px;">
+          <option>All Bedrooms</option>
+          <option>1BHK</option>
+          <option>2BHK</option>
+          <option>3BHK</option>
+          <option>4BHK</option>
+          <option>5BHK+</option>
+        </select>
+
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <span style="font-size: 13px; color: var(--color-text-secondary);">Price Range:</span>
+          <input type="number" placeholder="₹20L" style="width: 100px; font-size: 13px;">
+          <span style="color: var(--color-text-muted);">–</span>
+          <input type="number" placeholder="₹5Cr" style="width: 100px; font-size: 13px;">
+        </div>
+
+        <button class="btn btn-primary" style="margin-left: auto;">Apply Filters</button>
+        <button class="btn btn-text">Reset</button>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="grid-4" style="padding: var(--spacing-32);">
+        <!-- KPI 1 -->
+        <div class="card in-view">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 16px;">
+            Average Price
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: var(--color-accent); margin-bottom: 12px;">
+            ₹1.84 Cr
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--color-success);">
+            <span>▲</span> +3.2% vs last month
+          </div>
+        </div>
+
+        <!-- KPI 2 -->
+        <div class="card in-view-delayed-1">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 16px;">
+            Total Predictions
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: var(--color-accent); margin-bottom: 12px;">
+            <span class="counter" data-target="12847">0</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--color-success);">
+            <span>▲</span> Active and growing
+          </div>
+        </div>
+
+        <!-- KPI 3 -->
+        <div class="card in-view-delayed-2">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 16px;">
+            Model Accuracy
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: var(--color-accent); margin-bottom: 12px;">
+            94.2%
+          </div>
+          <div style="height: 4px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+            <div style="height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dark)); width: 94.2%;"></div>
+          </div>
+        </div>
+
+        <!-- KPI 4 -->
+        <div class="card in-view-delayed-3">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 16px;">
+            Highest Value
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: var(--color-accent); margin-bottom: 12px;">
+            ₹6.2 Cr
+          </div>
+          <div style="display: inline-block; padding: 4px 12px; background: rgba(200, 169, 110, 0.1); border: 1px solid rgba(200, 169, 110, 0.2); border-radius: var(--radius-sm); font-size: 11px; color: var(--color-text-secondary);">
+            Bandra West
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div style="display: grid; grid-template-columns: 60% 40%; gap: var(--spacing-24); padding: 0 var(--spacing-32) var(--spacing-32);">
+        <!-- Area Chart -->
+        <div class="card in-view">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 24px;">
+            Price by Area (sq ft)
+          </div>
+          <svg width="100%" height="300" viewBox="0 0 500 300" preserveAspectRatio="xMidYMid meet" style="margin-bottom: 24px;">
+            <!-- Grid lines -->
+            <line x1="60" y1="250" x2="480" y2="250" stroke="var(--color-border)" stroke-width="1"/>
+            <line x1="60" y1="200" x2="480" y2="200" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <line x1="60" y1="150" x2="480" y2="150" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <line x1="60" y1="100" x2="480" y2="100" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <line x1="60" y1="50" x2="480" y2="50" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+            <!-- Y-Axis -->
+            <line x1="60" y1="20" x2="60" y2="250" stroke="var(--color-border)" stroke-width="1"/>
+            <!-- X-Axis -->
+            <line x1="60" y1="250" x2="480" y2="250" stroke="var(--color-border)" stroke-width="1"/>
+
+            <!-- Area fill -->
+            <defs>
+              <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:rgba(200,169,110,0.3);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:rgba(200,169,110,0.05);stop-opacity:1" />
+              </linearGradient>
+            </defs>
+
+            <!-- Smooth curve path -->
+            <path d="M 80 220 Q 140 180, 200 150 T 320 120 T 460 140 L 460 250 L 80 250 Z" fill="url(#areaGradient)" stroke="none"/>
+
+            <!-- Stroke line -->
+            <path d="M 80 220 Q 140 180, 200 150 T 320 120 T 460 140" fill="none" stroke="var(--color-accent)" stroke-width="2"/>
+
+            <!-- Data points -->
+            <circle cx="80" cy="220" r="3" fill="var(--color-accent)"/>
+            <circle cx="200" cy="150" r="3" fill="var(--color-accent)"/>
+            <circle cx="320" cy="120" r="3" fill="var(--color-accent)"/>
+            <circle cx="460" cy="140" r="3" fill="var(--color-accent)"/>
+
+            <!-- Labels -->
+            <text x="60" y="270" font-family="var(--font-mono)" font-size="11" fill="var(--color-text-muted)" text-anchor="middle">1000</text>
+            <text x="200" y="270" font-family="var(--font-mono)" font-size="11" fill="var(--color-text-muted)" text-anchor="middle">2000</text>
+            <text x="340" y="270" font-family="var(--font-mono)" font-size="11" fill="var(--color-text-muted)" text-anchor="middle">3000</text>
+            <text x="480" y="270" font-family="var(--font-mono)" font-size="11" fill="var(--color-text-muted)" text-anchor="middle">4000</text>
+
+            <text x="40" y="255" font-family="var(--font-mono)" font-size="11" fill="var(--color-text-muted)" text-anchor="end">₹0</text>
+            <text x="40" y="205" font-family="var(--font-mono)" font-size="11" fill="var(--color-text-muted)" text-anchor="end">₹50L</text>
+            <text x="40" y="105" font-family="var(--font-mono)" font-size="11" fill="var(--color-text-muted)" text-anchor="end">₹100L</text>
+          </svg>
+        </div>
+
+        <!-- Horizontal Bar Chart -->
+        <div class="card in-view-delayed-1">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); margin-bottom: 24px;">
+            Price by Location
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                <span>Mumbai</span>
+                <span style="color: var(--color-text-muted);">3,240</span>
+              </div>
+              <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                <div style="height: 100%; background: var(--color-accent); width: 95%; border-radius: 2px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                <span>Bangalore</span>
+                <span style="color: var(--color-text-muted);">2,840</span>
+              </div>
+              <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                <div style="height: 100%; background: var(--color-accent-dark); width: 78%; border-radius: 2px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                <span>Delhi</span>
+                <span style="color: var(--color-text-muted);">2,156</span>
+              </div>
+              <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                <div style="height: 100%; background: var(--color-accent); width: 64%; border-radius: 2px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                <span>Pune</span>
+                <span style="color: var(--color-text-muted);">1,920</span>
+              </div>
+              <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                <div style="height: 100%; background: var(--color-accent-dark); width: 58%; border-radius: 2px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                <span>Hyderabad</span>
+                <span style="color: var(--color-text-muted);">1,691</span>
+              </div>
+              <div style="height: 8px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+                <div style="height: 100%; background: var(--color-accent); width: 52%; border-radius: 2px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table Section -->
+      <div style="padding: 0 var(--spacing-32) var(--spacing-96);">
+        <div class="card in-view" style="padding: 0;">
+          <div style="padding: var(--spacing-32); font-size: 11px; text-transform: uppercase; letter-spacing: var(--font-letter-spacing-label); color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border);">
+            Recent Predictions
+          </div>
+
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: #1E1E1E; border-bottom: 1px solid var(--color-border);">
+                <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Property ID</th>
+                <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Location</th>
+                <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Area (sqft)</th>
+                <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Beds</th>
+                <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Predicted</th>
+                <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Actual</th>
+                <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Error %</th>
+                <th style="padding: var(--spacing-20); text-align: left; font-size: 12px; font-weight: 600; color: var(--color-text-secondary);">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+                <td style="padding: var(--spacing-20); font-size: 13px;">P-1001</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">Mumbai</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">2,400</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">3</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹1.84 Cr</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹1.82 Cr</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; color: var(--color-success);">0.24%</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;"><span style="display: inline-block; padding: 4px 12px; background: rgba(76, 175, 80, 0.1); border-radius: var(--radius-sm); color: var(--color-success);">✓ Accurate</span></td>
+              </tr>
+              <tr style="background: #111111; border-bottom: 1px solid var(--color-border);">
+                <td style="padding: var(--spacing-20); font-size: 13px;">P-1002</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">Bangalore</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">1,800</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">2</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹1.24 Cr</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹1.28 Cr</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; color: var(--color-success);">2.87%</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;"><span style="display: inline-block; padding: 4px 12px; background: rgba(76, 175, 80, 0.1); border-radius: var(--radius-sm); color: var(--color-success);">✓ Accurate</span></td>
+              </tr>
+              <tr style="background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+                <td style="padding: var(--spacing-20); font-size: 13px;">P-1003</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">Delhi</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">1,600</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">2</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹96 L</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹92 L</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; color: var(--color-success);">3.04%</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;"><span style="display: inline-block; padding: 4px 12px; background: rgba(76, 175, 80, 0.1); border-radius: var(--radius-sm); color: var(--color-success);">✓ Accurate</span></td>
+              </tr>
+              <tr style="background: #111111; border-bottom: 1px solid var(--color-border);">
+                <td style="padding: var(--spacing-20); font-size: 13px;">P-1004</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">Pune</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">2,100</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">3</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹1.45 Cr</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹1.42 Cr</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; color: var(--color-success);">1.70%</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;"><span style="display: inline-block; padding: 4px 12px; background: rgba(76, 175, 80, 0.1); border-radius: var(--radius-sm); color: var(--color-success);">✓ Accurate</span></td>
+              </tr>
+              <tr style="background: var(--color-surface);">
+                <td style="padding: var(--spacing-20); font-size: 13px;">P-1005</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">Hyderabad</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">1,950</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;">3</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹1.62 Cr</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; font-family: var(--font-mono);">₹1.58 Cr</td>
+                <td style="padding: var(--spacing-20); font-size: 13px; color: var(--color-success);">0.61%</td>
+                <td style="padding: var(--spacing-20); font-size: 13px;"><span style="display: inline-block; padding: 4px 12px; background: rgba(76, 175, 80, 0.1); border-radius: var(--radius-sm); color: var(--color-success);">✓ Accurate</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
