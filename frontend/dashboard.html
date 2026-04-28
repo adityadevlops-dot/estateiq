@@ -567,8 +567,8 @@
               <div>
                 <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--color-text-secondary);">API Key</div>
                 <div style="display: flex; gap: 8px;">
-                  <input type="password" value="••••••••••••••••••••" style="flex: 1; padding: 8px 12px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary);">
-                  <button class="btn btn-outline" style="padding: 8px 16px; font-size: 12px;">Copy</button>
+                  <div style="flex: 1; padding: 8px 12px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-secondary); font-size: 12px;">Click \"Copy\" to retrieve your API key</div>
+                  <button class="btn btn-outline" id="copyApiKeyBtn" style="padding: 8px 16px; font-size: 12px;">Copy</button>
                 </div>
               </div>
               <button class="btn btn-outline" style="align-self: flex-start;">Regenerate Key</button>
@@ -580,7 +580,7 @@
             <div style="font-size: 13px; font-weight: 600; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255, 69, 69, 0.2); color: #FF4545;">Danger Zone</div>
             <div style="display: flex; flex-direction: column; gap: 12px;">
               <div style="font-size: 12px; color: var(--color-text-secondary);">Once you delete your account, there is no going back. Please be certain.</div>
-              <button class="btn" style="background: #FF4545; color: white; align-self: flex-start; padding: 8px 16px; border: none; border-radius: var(--radius-md); cursor: pointer; font-size: 12px;">Delete Account</button>
+              <button id="deleteAccountBtn" class="btn" style="background: #FF4545; color: white; align-self: flex-start; padding: 8px 16px; border: none; border-radius: var(--radius-md); cursor: pointer; font-size: 12px;">Delete Account</button>
             </div>
           </div>
         </div>

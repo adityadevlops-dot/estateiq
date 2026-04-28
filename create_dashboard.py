@@ -33,9 +33,32 @@ LOCATION_MAP = {
 
 def load_data():
     """Load all prediction data."""
-    df_pred = pd.read_csv(PREDICTIONS_FILE)
-    df_summary = pd.read_csv(SUMMARY_FILE)
-    df_models = pd.read_csv(MODEL_COMP_FILE)
+    try:
+        df_pred = pd.read_csv(PREDICTIONS_FILE)
+        if df_pred.empty:
+            raise pd.errors.EmptyDataError(PREDICTIONS_FILE)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Predictions file not found: {PREDICTIONS_FILE}")
+    except pd.errors.EmptyDataError:
+        raise ValueError(f"Predictions file is empty: {PREDICTIONS_FILE}")
+    
+    try:
+        df_summary = pd.read_csv(SUMMARY_FILE)
+        if df_summary.empty:
+            raise pd.errors.EmptyDataError(SUMMARY_FILE)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Summary file not found: {SUMMARY_FILE}")
+    except pd.errors.EmptyDataError:
+        raise ValueError(f"Summary file is empty: {SUMMARY_FILE}")
+    
+    try:
+        df_models = pd.read_csv(MODEL_COMP_FILE)
+        if df_models.empty:
+            raise pd.errors.EmptyDataError(MODEL_COMP_FILE)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Model comparison file not found: {MODEL_COMP_FILE}")
+    except pd.errors.EmptyDataError:
+        raise ValueError(f"Model comparison file is empty: {MODEL_COMP_FILE}")
     
     # Map location codes to names
     df_pred['location_name'] = df_pred['location'].map(LOCATION_MAP)
@@ -46,7 +69,17 @@ def load_data():
 def create_kpi_cards(df_pred):
     """Create KPI card data."""
     total_predictions = len(df_pred)
-    accuracy_rate = (df_pred['within_10pct'].sum() / len(df_pred) * 100)
+    
+    # Guard against empty dataframe
+    if total_predictions == 0 or df_pred.empty:
+        return {
+            'total_predictions': 0,
+            'accuracy_rate': 0.0,
+            'avg_error_pct': 0.0,
+            'avg_error_rs': 0.0
+        }
+    
+    accuracy_rate = (df_pred['within_10pct'].sum() / total_predictions * 100)
     avg_error_pct = df_pred['percentage_error'].mean()
     avg_error_rs = df_pred['absolute_error'].mean()
     
@@ -259,13 +292,13 @@ def create_html_dashboard(df_pred, df_summary, df_models, kpis):
     model_comp = create_model_comparison(df_models)
     bedrooms = create_bedrooms_analysis(df_pred)
     
-    # Convert to HTML
-    scatter_html = scatter.to_html(include_plotlyjs=False, div_id="scatter")
-    accuracy_html = accuracy_loc.to_html(include_plotlyjs=False, div_id="accuracy")
-    error_html = error_dist.to_html(include_plotlyjs=False, div_id="error")
-    price_html = price_band.to_html(include_plotlyjs=False, div_id="price")
-    model_html = model_comp.to_html(include_plotlyjs=False, div_id="model")
-    bedrooms_html = bedrooms.to_html(include_plotlyjs=False, div_id="bedrooms")
+    # Convert to HTML (without full HTML wrappers for embedding)
+    scatter_html = scatter.to_html(include_plotlyjs=False, div_id="scatter", full_html=False)
+    accuracy_html = accuracy_loc.to_html(include_plotlyjs=False, div_id="accuracy", full_html=False)
+    error_html = error_dist.to_html(include_plotlyjs=False, div_id="error", full_html=False)
+    price_html = price_band.to_html(include_plotlyjs=False, div_id="price", full_html=False)
+    model_html = model_comp.to_html(include_plotlyjs=False, div_id="model", full_html=False)
+    bedrooms_html = bedrooms.to_html(include_plotlyjs=False, div_id="bedrooms", full_html=False)
     
     # Create HTML document
     html_content = f"""

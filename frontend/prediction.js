@@ -1,20 +1,19 @@
-// ============================================================================
-// PREDICTION PAGE INTERACTIONS
-// ============================================================================
+// Module-level variable for confidence fill element
+let confidenceFill;
 
-// ============================================================================
-// NAVBAR SCROLL DETECTION
-// ============================================================================
+// Rest of prediction.js code...
 
 const navbar = document.querySelector('.navbar');
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 80) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-});
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+}
 
 // ============================================================================
 // SIDEBAR NAVIGATION
@@ -121,41 +120,46 @@ pillTags.forEach(tag => {
 // ============================================================================
 
 const form = document.getElementById('predictionForm');
-const submitBtn = form.querySelector('button[type="submit"]');
-const loadingSpinner = document.getElementById('loadingSpinner');
-const outputPlaceholder = document.getElementById('outputPlaceholder');
-const resultCard = document.getElementById('resultCard');
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+if (!form) {
+  console.error('✗ Prediction form not found');
+} else {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const loadingSpinner = document.getElementById('loadingSpinner');
+  const outputPlaceholder = document.getElementById('outputPlaceholder');
+  const resultCard = document.getElementById('resultCard');
   
-  // Validate form
-  if (!validateForm()) {
-    console.error('✗ Form validation failed');
-    return;
-  }
-  
-  // Get form data
-  const formData = getFormData();
-  console.log('✓ Form data:', formData);
-  
-  // Show loading state
-  showLoadingState();
-  
-  // Simulate API call
-  try {
-    const result = await simulatePrediction(formData);
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
     
-    // Hide loading
-    hideLoadingState();
+    // Validate form
+    if (!validateForm()) {
+      console.error('✗ Form validation failed');
+      return;
+    }
     
-    // Display result
-    displayResult(result);
-  } catch (error) {
-    console.error('✗ Prediction error:', error);
-    hideLoadingState();
-  }
-});
+    // Get form data
+    const formData = getFormData();
+    console.log('✓ Form data:', formData);
+    
+    // Show loading state
+    showLoadingState();
+    
+    // Simulate API call
+    try {
+      const result = await simulatePrediction(formData);
+      
+      // Hide loading
+      hideLoadingState();
+      
+      // Display result
+      displayResult(result);
+    } catch (error) {
+      console.error('✗ Prediction error:', error);
+      hideLoadingState();
+    }
+  });
+}
 
 // ============================================================================
 // FORM VALIDATION
@@ -247,13 +251,22 @@ async function simulatePrediction(formData) {
     
     let totalImportance = topFeatures.reduce((sum, [, val]) => sum + val, 0);
     
-    topFeatures.forEach(([feature, importance]) => {
-      features[feature] = Math.round((importance / totalImportance) * 100);
-    });
+    // Guard against division by zero
+    if (totalImportance > 0) {
+      topFeatures.forEach(([feature, importance]) => {
+        features[feature] = Math.round((importance / totalImportance) * 100);
+      });
+    } else {
+      topFeatures.forEach(([feature]) => {
+        features[feature] = 0;
+      });
+    }
     
-    // Ensure we have at least 100%
-    if (Object.values(features).reduce((a, b) => a + b, 0) < 100) {
-      features['other'] = 100 - Object.values(features).reduce((a, b) => a + b, 0);
+    // Calculate sum of current features
+    const currentSum = Object.values(features).reduce((a, b) => a + b, 0);
+    // Add 'other' only if needed, and ensure it's never negative
+    if (currentSum < 100) {
+      features['other'] = Math.max(0, 100 - currentSum);
     }
     
     return {
@@ -311,15 +324,15 @@ async function simulatePrediction(formData) {
 // ============================================================================
 
 function showLoadingState() {
-  loadingSpinner.classList.add('show');
-  outputPlaceholder.style.display = 'none';
-  resultCard.classList.remove('show');
-  submitBtn.disabled = true;
+  if (loadingSpinner) loadingSpinner.classList.add('show');
+  if (outputPlaceholder) outputPlaceholder.style.display = 'none';
+  if (resultCard) resultCard.classList.remove('show');
+  if (submitBtn) submitBtn.disabled = true;
 }
 
 function hideLoadingState() {
-  loadingSpinner.classList.remove('show');
-  submitBtn.disabled = false;
+  if (loadingSpinner) loadingSpinner.classList.remove('show');
+  if (submitBtn) submitBtn.disabled = false;
 }
 
 // ============================================================================
@@ -353,9 +366,11 @@ function displayResult(result) {
     `Confidence: ${confidence}%`;
   
   // Animate confidence bar
-  const confidenceFill = document.getElementById('confidenceFill');
+  confidenceFill = document.getElementById('confidenceFill');
   setTimeout(() => {
-    confidenceFill.style.width = confidence + '%';
+    if (confidenceFill) {
+      confidenceFill.style.width = confidence + '%';
+    }
   }, 100);
   
   // Update feature table
@@ -363,14 +378,29 @@ function displayResult(result) {
   featureTable.innerHTML = '';
   
   Object.entries(features).forEach(([feature, percentage]) => {
+    // Create row
     const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${feature.charAt(0).toUpperCase() + feature.slice(1)}</td>
-      <td>
-        <span class="feature-bar" style="width: ${percentage}%;"></span>
-        ${percentage}%
-      </td>
-    `;
+    
+    // Create first td with feature name (safe text content)
+    const td1 = document.createElement('td');
+    td1.textContent = feature.charAt(0).toUpperCase() + feature.slice(1);
+    row.appendChild(td1);
+    
+    // Create second td with bar and percentage
+    const td2 = document.createElement('td');
+    
+    // Create span for feature bar (safe DOM method)
+    const span = document.createElement('span');
+    span.className = 'feature-bar';
+    // Clamp percentage to 0-100 and use as style
+    const clampedPercentage = Math.max(0, Math.min(100, parseFloat(percentage)));
+    span.style.width = clampedPercentage + '%';
+    td2.appendChild(span);
+    
+    // Add percentage text
+    td2.appendChild(document.createTextNode(` ${clampedPercentage}%`));
+    row.appendChild(td2);
+    
     featureTable.appendChild(row);
   });
   
@@ -388,7 +418,10 @@ document.querySelectorAll('button').forEach(btn => {
       
       // Reset form
       form.reset();
-      sessionStorage.clear();
+      // Only clear prediction-related session items
+      sessionStorage.removeItem('selected-bedroomGroup');
+      sessionStorage.removeItem('selected-bathroomGroup');
+      sessionStorage.removeItem('selected-furnishingGroup');
       selectedAmenities.clear();
       
       // Reset UI
@@ -414,7 +447,9 @@ document.querySelectorAll('button').forEach(btn => {
       // Hide result, show placeholder
       resultCard.classList.remove('show');
       outputPlaceholder.style.display = 'flex';
-      confidenceFill.style.width = '0%';
+      if (confidenceFill) {
+        confidenceFill.style.width = '0%';
+      }
       
       console.log('✓ Form reset for new prediction');
     });

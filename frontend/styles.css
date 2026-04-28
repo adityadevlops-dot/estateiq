@@ -43,6 +43,8 @@
   --spacing-4: 4px;
   --spacing-8: 8px;
   --spacing-12: 12px;
+  --spacing-13: 13px;
+  --spacing-14: 14px;
   --spacing-16: 16px;
   --spacing-20: 20px;
   --spacing-24: 24px;
@@ -567,7 +569,7 @@ textarea {
   }
 }
 
-@keyframes pulse {
+@keyframes pulse-scale {
   0%, 100% {
     opacity: 1;
     transform: scale(1);

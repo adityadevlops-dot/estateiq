@@ -273,12 +273,12 @@ def run_health_checks():
                 result = check_models_exist()
                 status = "✓" if result else "⚠ (will train)"
                 print(f"{Colors.GREEN}{status}{Colors.RESET} {check_name}")
-                results[check_name] = True
+                results[check_name] = result
             elif check_name == 'API Available':
                 result = verify_api_available()
                 status = "✓" if result else "⚠ (starting)"
                 print(f"{Colors.YELLOW}{status}{Colors.RESET} {check_name}")
-                results[check_name] = True
+                results[check_name] = result
         except Exception as e:
             print_warning(f"{check_name}: {str(e)}")
             results[check_name] = False

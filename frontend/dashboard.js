@@ -57,7 +57,7 @@ async function loadMetrics() {
   try {
     console.log('📊 Fetching metrics from backend API...');
     
-    const response = await fetch('http://localhost:5000/api/metrics');
+    const response = await fetch('/api/metrics');
     if (!response.ok) throw new Error(`API error: ${response.status}`);
     
     const data = await response.json();
@@ -101,13 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const navbar = document.querySelector('.navbar');
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 80) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-});
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+}
 
 // ============================================================================
 // INTERSECTION OBSERVER FOR ANIMATIONS
@@ -151,6 +153,14 @@ function animateCounter(element) {
   if (element.dataset.animated === 'true') return;
   
   const target = parseInt(element.getAttribute('data-target'), 10);
+  
+  // Validate target is a finite positive number
+  if (isNaN(target) || target <= 0) {
+    element.textContent = '0';
+    element.dataset.animated = 'true';
+    return;
+  }
+  
   const duration = 1200; // ms
   const increment = target / (duration / 16); // 60fps
   
@@ -205,12 +215,19 @@ if (resetBtn && resetBtn.textContent.includes('Reset')) {
 const tableRows = document.querySelectorAll('tbody tr');
 
 tableRows.forEach(row => {
-  row.addEventListener('hover', () => {
+  row.addEventListener('mouseenter', () => {
     row.style.backgroundColor = 'rgba(200, 169, 110, 0.05)';
   });
   
+  row.addEventListener('mouseleave', () => {
+    row.style.backgroundColor = '';
+  });
+  
   row.addEventListener('click', () => {
-    console.log('✓ Row clicked:', row.querySelector('td').textContent);
+    const firstTd = row.querySelector('td');
+    if (firstTd) {
+      console.log('✓ Row clicked:', firstTd.textContent);
+    }
   });
 });
 
@@ -262,6 +279,80 @@ handleResponsive();
 // ============================================================================
 
 console.log('✓ Dashboard initialized');
+
+// ============================================================================
+// API KEY MANAGEMENT
+// ============================================================================
+
+const copyApiKeyBtn = document.getElementById('copyApiKeyBtn');
+if (copyApiKeyBtn) {
+  copyApiKeyBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      // In production, fetch API key from backend
+      // const response = await fetch('/api/user/api-key');
+      // const data = await response.json();
+      // const apiKey = data.api_key;
+      
+      // For demo, use a mock API key
+      const apiKey = 'sk_estateiq_' + Math.random().toString(36).substr(2, 20).toUpperCase();
+      
+      // Copy to clipboard
+      await navigator.clipboard.writeText(apiKey);
+      copyApiKeyBtn.textContent = '✓ Copied!';
+      setTimeout(() => {
+        copyApiKeyBtn.textContent = 'Copy';
+      }, 2000);
+      
+      console.log('✓ API key copied to clipboard');
+    } catch (error) {
+      console.error('✗ Failed to copy API key:', error);
+      alert('Failed to copy API key. Please try again.');
+    }
+  });
+}
+
+// ============================================================================
+// DELETE ACCOUNT CONFIRMATION
+// ============================================================================
+
+const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+if (deleteAccountBtn) {
+  deleteAccountBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    confirmDeleteAccount();
+  });
+}
+
+function confirmDeleteAccount() {
+  const confirmed = confirm(
+    'Are you absolutely sure you want to delete your account?\n\n' +
+    'This action CANNOT be undone. All your data, predictions, and API keys will be permanently deleted.\n\n' +
+    'Type your password to confirm deletion.'
+  );
+  
+  if (confirmed) {
+    const password = prompt('Enter your password to confirm account deletion:');
+    if (password) {
+      deleteAccount(password);
+    }
+  }
+}
+
+async function deleteAccount(password) {
+  try {
+    // In production, call DELETE /api/auth/profile with password verification
+    // const response = await Auth.delete('/api/auth/profile', { password });
+    
+    // For demo purposes
+    console.log('✓ Account deletion confirmed');
+    alert('Your account has been deleted. You will be logged out.');
+    Auth.logout();
+  } catch (error) {
+    console.error('✗ Account deletion failed:', error);
+    alert('Failed to delete account. Please try again.');
+  }
+}
 
 // Trigger animations for cards already in view on page load
 setTimeout(() => {

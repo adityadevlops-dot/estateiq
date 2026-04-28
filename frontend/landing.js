@@ -6,21 +6,23 @@
 const navbar = document.querySelector('.navbar');
 let lastScrollY = 0;
 
-window.addEventListener('scroll', () => {
-  lastScrollY = window.scrollY;
-  
-  if (lastScrollY > 80) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    lastScrollY = window.scrollY;
+    
+    if (lastScrollY > 80) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
 
-  // Parallax effect on hero background
-  const heroBg = document.querySelector('.hero-background');
-  if (heroBg) {
-    heroBg.style.transform = `translateY(${lastScrollY * 0.4}px)`;
-  }
-});
+    // Parallax effect on hero background
+    const heroBg = document.querySelector('.hero-background');
+    if (heroBg) {
+      heroBg.style.transform = `translateY(${lastScrollY * 0.4}px)`;
+    }
+  });
+}
 
 // ============================================================================
 // INTERSECTION OBSERVER FOR SCROLL ANIMATIONS
@@ -59,6 +61,13 @@ document.querySelectorAll('[class*="in-view"]').forEach(el => {
 function animateCounter(element) {
   const target = parseInt(element.getAttribute('data-target'), 10);
   const duration = 1200; // ms
+  
+  // Validate target is a finite positive number
+  if (isNaN(target) || target <= 0) {
+    element.textContent = '0';
+    return;
+  }
+  
   const increment = target / (duration / 16); // 60fps
   
   let current = 0;
@@ -113,20 +122,7 @@ document.querySelectorAll('.btn-primary').forEach(btn => {
 });
 
 // ============================================================================
-// HERO INPUT INTERACTION
-// ============================================================================
 
-const heroInputs = document.querySelectorAll('.hero input[type="number"]');
-const heroButton = document.querySelector('.hero .btn-primary');
-
-if (heroButton) {
-  heroButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.location.href = 'prediction.html';
-  });
-}
-
-// ============================================================================
 // INITIAL SETUP
 // ============================================================================
 
