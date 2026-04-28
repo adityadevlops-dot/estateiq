@@ -498,4 +498,4 @@ For issues or customization requests, refer to the inline code comments or consu
 
 **Built with precision. Designed for professionals. Zero compromises.**
 
-*EstateIQ Frontend — April 2025*
+*EstateIQ Frontend — April 2026*

@@ -162,6 +162,41 @@ def create_app():
         }), 401
     
     # ========================================================================
+    # Root Endpoint
+    # ========================================================================
+    @app.route('/', methods=['GET'])
+    def root():
+        """
+        Root endpoint - API welcome message
+        
+        Returns:
+            JSON with API information
+        """
+        return jsonify({
+            "success": True,
+            "message": "EstateIQ House Price Prediction API",
+            "version": "1.0.0",
+            "endpoints": {
+                "health": "/health",
+                "auth": {
+                    "register": "POST /api/auth/register",
+                    "login": "POST /api/auth/login",
+                    "me": "GET /api/auth/me",
+                    "profile": "PUT /api/auth/profile",
+                    "refresh": "POST /api/auth/refresh",
+                    "logout": "POST /api/auth/logout"
+                },
+                "predict": "POST /api/predict",
+                "metrics": "GET /api/metrics",
+                "data": {
+                    "all": "GET /api/data",
+                    "summary": "GET /api/data/summary",
+                    "schema": "GET /api/data/schema"
+                }
+            }
+        }), 200
+    
+    # ========================================================================
     # Health Check Endpoint
     # ========================================================================
     @app.route('/health', methods=['GET'])
