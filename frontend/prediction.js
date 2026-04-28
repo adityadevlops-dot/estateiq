@@ -215,20 +215,12 @@ async function simulatePrediction(formData) {
   try {
     console.log('🔄 Calling backend API with data:', formData);
     
-    // Call real backend API
-    const response = await fetch('http://localhost:5000/api/predict', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
+    // Call real backend API using authenticated request
+    const response = await Auth.post('http://localhost:5000/api/predict', formData);
     
-    // Handle HTTP errors
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Backend error: ${response.status} - ${errorData.error || errorData.errors?.[0] || response.statusText}`);
+    if (!response || !response.ok) {
+      const errorData = response ? await response.json().catch(() => ({})) : {};
+      throw new Error(`Backend error: ${response?.status} - ${errorData.error || errorData.errors?.[0] || 'Unknown error'}`);
     }
     
     const data = await response.json();

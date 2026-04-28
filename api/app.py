@@ -6,10 +6,13 @@ Sets up Flask app, registers blueprints, configures CORS, middleware, and error 
 
 import logging
 import time
-from datetime import datetime
+import os
+from datetime import datetime, timedelta
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from config import setup_logging
+from api.models import db
 
 # Configure logging
 logger = setup_logging()
@@ -27,6 +30,25 @@ def create_app():
     logger.info("Creating Flask application...")
     
     # ========================================================================
+    # DATABASE Configuration
+    # ========================================================================
+    database_path = os.path.join(os.path.dirname(__file__), '..', 'estateiq.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{database_path}'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    db.init_app(app)
+    logger.info("Database configured")
+    
+    # ========================================================================
+    # JWT Configuration
+    # ========================================================================
+    app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'estateiq-secret-key-change-in-production')
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=30)
+    
+    jwt = JWTManager(app)
+    logger.info("JWT configured")
+    
+    # ========================================================================
     # CORS Configuration
     # ========================================================================
     CORS(app)
@@ -38,12 +60,21 @@ def create_app():
     from api.routes.predict import predict_bp
     from api.routes.metrics import metrics_bp
     from api.routes.data import data_bp
+    from api.routes.auth import auth_bp
     
     app.register_blueprint(predict_bp)
     app.register_blueprint(metrics_bp)
     app.register_blueprint(data_bp)
+    app.register_blueprint(auth_bp)
     
     logger.info("All blueprints registered")
+    
+    # ========================================================================
+    # Database Initialization
+    # ========================================================================
+    with app.app_context():
+        db.create_all()
+        logger.info("Database tables created/verified")
     
     # ========================================================================
     # Request Logging Middleware
@@ -99,6 +130,36 @@ def create_app():
             "error": "Internal server error",
             "status": 500
         }), 500
+    
+    # ========================================================================
+    # JWT Error Handlers
+    # ========================================================================
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload):
+        """Handle expired JWT tokens"""
+        return jsonify({
+            "success": False,
+            "error": "Token has expired",
+            "status": 401
+        }), 401
+    
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
+        """Handle invalid JWT tokens"""
+        return jsonify({
+            "success": False,
+            "error": "Invalid token",
+            "status": 401
+        }), 401
+    
+    @jwt.unauthorized_loader
+    def missing_token_callback(error):
+        """Handle missing JWT tokens"""
+        return jsonify({
+            "success": False,
+            "error": "Authorization token missing",
+            "status": 401
+        }), 401
     
     # ========================================================================
     # Health Check Endpoint

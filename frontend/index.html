@@ -22,7 +22,10 @@
         <a href="#about">About</a>
       </nav>
 
-      <button class="btn btn-outline">Get Started</button>
+      <div style="display: flex; gap: var(--spacing-12);" id="navAuth">
+        <button class="btn btn-outline" id="signupBtn" onclick="window.location.href='signup.html'">Sign Up</button>
+        <button class="btn btn-primary" id="loginBtn" onclick="window.location.href='login.html'">Sign In</button>
+      </div>
     </div>
   </header>
 
@@ -315,6 +318,22 @@
     </div>
   </section>
 
+  <script src="auth.js"></script>
   <script src="landing.js"></script>
+  <script>
+    // Update nav based on auth status
+    document.addEventListener('DOMContentLoaded', () => {
+      const navAuth = document.getElementById('navAuth');
+      
+      if (Auth.isAuthenticated()) {
+        navAuth.innerHTML = `
+          <span style="display: flex; align-items: center; gap: 12px; color: var(--color-text-secondary); font-size: 14px;">
+            <span>${Auth.getUser().username}</span>
+            <button class="btn btn-outline" onclick="Auth.logout()" style="padding: 6px 12px; font-size: 12px;">Logout</button>
+          </span>
+        `;
+      }
+    });
+  </script>
 </body>
 </html>
