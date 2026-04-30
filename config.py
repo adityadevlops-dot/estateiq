@@ -73,7 +73,7 @@ FURNISHING_PREMIUMS = {
 
 # Required columns in dataset
 REQUIRED_COLUMNS = [
-    'area_sqft', 'location', 'bedrooms', 'bathrooms', 
+    'area_sqft', 'location', 'bedrooms', 'bathrooms',
     'age_years', 'floor', 'furnishing', 'parking', 'price'
 ]
 
@@ -117,19 +117,42 @@ API_CONFIG = {
 def setup_logging():
     """
     Configure logging for the entire application.
-    
+
     Returns:
         logging.Logger: Configured logger instance
     """
-    log_format = "[%(asctime)s] %(levelname)s %(name)s — %(message)s"
-    logging.basicConfig(
-        level=logging.INFO,
-        format=log_format,
-        handlers=[
-            logging.StreamHandler(),
-            logging.FileHandler(os.path.join(BASE_DIR, 'app.log'))
-        ]
-    )
+    log_format = "[%(asctime)s] %(levelname)s %(name)s - %(message)s"
+    formatter = logging.Formatter(log_format)
+    root_logger = logging.getLogger()
+
+    if not getattr(setup_logging, "_configured", False):
+        root_logger.setLevel(logging.INFO)
+
+        has_stream_handler = any(
+            isinstance(handler, logging.StreamHandler) and not isinstance(handler, logging.FileHandler)
+            for handler in root_logger.handlers
+        )
+        if not has_stream_handler:
+            stream_handler = logging.StreamHandler()
+            stream_handler.setFormatter(formatter)
+            root_logger.addHandler(stream_handler)
+
+        log_path = os.path.join(BASE_DIR, "app.log")
+        has_file_handler = any(
+            isinstance(handler, logging.FileHandler) and getattr(handler, "baseFilename", None) == log_path
+            for handler in root_logger.handlers
+        )
+        if not has_file_handler:
+            try:
+                file_handler = logging.FileHandler(log_path, encoding="utf-8")
+            except OSError as exc:
+                root_logger.warning(f"File logging disabled: {exc}")
+            else:
+                file_handler.setFormatter(formatter)
+                root_logger.addHandler(file_handler)
+
+        setup_logging._configured = True
+
     return logging.getLogger(__name__)
 
 # ============================================================================
