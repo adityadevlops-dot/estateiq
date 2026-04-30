@@ -6,6 +6,9 @@
  * Authentication utilities for managing user sessions and API calls
  */
 
+const API_BASE_URL = window.API_BASE_URL || 'http://localhost:5000';
+window.API_BASE_URL = API_BASE_URL;
+
 const Auth = {
   /**
    * Get the stored JWT token
@@ -123,7 +126,7 @@ const Auth = {
    */
   async refreshUser() {
     try {
-      const response = await this.get('http://localhost:5000/api/auth/me');
+      const response = await this.get(`${API_BASE_URL}/api/auth/me`);
       if (response && response.ok) {
         const data = await response.json();
         localStorage.setItem('user', JSON.stringify(data.data));
@@ -135,6 +138,8 @@ const Auth = {
     return null;
   }
 };
+
+window.Auth = Auth;
 
 // ============================================================================
 // PAGE PROTECTION
