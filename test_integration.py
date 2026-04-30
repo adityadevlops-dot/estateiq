@@ -11,6 +11,11 @@ import json
 from urllib.request import urlopen, Request
 from urllib.error import URLError
 
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 def print_status(status, message):
     """Print colored status message"""
     colors = {
