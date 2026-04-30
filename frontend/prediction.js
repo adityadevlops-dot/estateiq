@@ -1,5 +1,9 @@
 // Module-level variable for confidence fill element
 let confidenceFill;
+let submitBtn;
+let loadingSpinner;
+let outputPlaceholder;
+let resultCard;
 
 // Rest of prediction.js code...
 
@@ -124,10 +128,10 @@ const form = document.getElementById('predictionForm');
 if (!form) {
   console.error('✗ Prediction form not found');
 } else {
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const loadingSpinner = document.getElementById('loadingSpinner');
-  const outputPlaceholder = document.getElementById('outputPlaceholder');
-  const resultCard = document.getElementById('resultCard');
+  submitBtn = form.querySelector('button[type="submit"]');
+  loadingSpinner = document.getElementById('loadingSpinner');
+  outputPlaceholder = document.getElementById('outputPlaceholder');
+  resultCard = document.getElementById('resultCard');
   
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -220,7 +224,7 @@ async function simulatePrediction(formData) {
     console.log('🔄 Calling backend API with data:', formData);
     
     // Call real backend API using authenticated request
-    const response = await Auth.post('http://localhost:5000/api/predict', formData);
+    const response = await Auth.post(`${window.API_BASE_URL || 'http://localhost:5000'}/api/predict`, formData);
     
     if (!response || !response.ok) {
       const errorData = response ? await response.json().catch(() => ({})) : {};
@@ -479,7 +483,7 @@ console.log('✓ Prediction page initialized');
 // Check API availability on page load
 (async () => {
   try {
-    const response = await fetch('http://localhost:5000/health', { 
+    const response = await fetch(`${window.API_BASE_URL || 'http://localhost:5000'}/health`, {
       method: 'GET',
       headers: { 'Accept': 'application/json' }
     });
