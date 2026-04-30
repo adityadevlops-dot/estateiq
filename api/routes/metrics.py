@@ -49,6 +49,10 @@ def get_metrics():
             "success": True,
             "data": {
                 "best_model": best_model['model_name'],
+                "model_r2_score": best_model['r2'],
+                "model_mae": best_model['mae'],
+                "model_rmse": best_model['rmse'],
+                "model_mape": best_model['mape'],
                 "metrics": {
                     "r2": best_model['r2'],
                     "mae": best_model['mae'],

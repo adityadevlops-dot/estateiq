@@ -84,7 +84,7 @@ def predict():
             },
             "meta": {
                 "model_used": predictor.model_name if hasattr(predictor, 'model_name') else "Unknown",
-                "model_accuracy": f"{(predictor.evaluations[0]['r2'] * 100):.1f}%" if predictor.evaluations else "N/A",
+                "model_accuracy": f"{(max(e['r2'] for e in predictor.evaluations) * 100):.1f}%" if predictor.evaluations else "N/A",
                 "timestamp": datetime.utcnow().isoformat() + "Z"
             }
         }
