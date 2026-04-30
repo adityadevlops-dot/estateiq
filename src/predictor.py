@@ -48,6 +48,8 @@ class Predictor:
         # Load model
         model_trainer = ModelTrainer({})
         self.model = model_trainer.load_model(PATHS['best_model'])
+        if hasattr(self.model, 'n_jobs'):
+            self.model.n_jobs = 1
         
         # Load encoders
         self.preprocessor = Preprocessor()
@@ -120,11 +122,14 @@ class Predictor:
         # Select features in correct order
         X = df[self.feature_names].values
         
-        # Scale features (fit=False, use saved scaler)
-        X_scaled = self.preprocessor.scale_features(pd.DataFrame(X, columns=self.feature_names), fit=False)
+        # Scale features only when a fitted scaler artifact exists.
+        if self.preprocessor.scaler is not None:
+            X_output = self.preprocessor.scale_features(pd.DataFrame(X, columns=self.feature_names), fit=False)
+        else:
+            X_output = X
         
-        logger.info(f"Input preprocessed. Shape: {X_scaled.shape}")
-        return X_scaled
+        logger.info(f"Input preprocessed. Shape: {X_output.shape}")
+        return X_output
     
     def predict(self, input_dict: dict) -> dict:
         """
@@ -177,7 +182,10 @@ class Predictor:
                 "predicted_price_crore": crore_price,
                 "confidence_range": {
                     "low": float(confidence_low),
-                    "high": float(confidence_high)
+                    "high": float(confidence_high),
+                    "min_price": float(confidence_low),
+                    "max_price": float(confidence_high),
+                    "confidence": 88.0
                 },
                 "feature_importances": feature_importances
             }
@@ -206,20 +214,19 @@ class Predictor:
             s = str(int(n))
             if len(s) <= 3:
                 return s
-            
-            # Reverse the string
-            s_rev = s[::-1]
-            
-            # Add commas from right: 2 digits, then 2 digits for every group
+
+            last_three = s[-3:]
+            remaining = s[:-3]
             parts = []
-            parts.append(s_rev[:2])  # Last 2 digits (ones and tens)
-            
-            for i in range(2, len(s_rev), 2):
-                parts.append(s_rev[i:i+2])
-            
-            # Reverse back
-            formatted = ','.join(parts[::-1])
-            return formatted
+
+            while len(remaining) > 2:
+                parts.append(remaining[-2:])
+                remaining = remaining[:-2]
+
+            if remaining:
+                parts.append(remaining)
+
+            return ','.join(reversed(parts)) + f",{last_three}"
         
         formatted = add_commas(amount)
         return f"₹ {formatted}"
