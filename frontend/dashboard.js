@@ -57,7 +57,7 @@ async function loadMetrics() {
   try {
     console.log('📊 Fetching metrics from backend API...');
     
-    const response = await fetch('/api/metrics');
+    const response = await fetch(`${window.API_BASE_URL || 'http://localhost:5000'}/api/metrics`);
     if (!response.ok) throw new Error(`API error: ${response.status}`);
     
     const data = await response.json();
